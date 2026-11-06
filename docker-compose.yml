@@ -1,0 +1,24 @@
+services:
+  app:
+    # Build từ Dockerfile Node trong bộ này (xem DEPLOY.md) — Dokploy build
+    # image này từ repo rồi chạy, không pull image có sẵn.
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: di-chua-online:1.0.0
+    environment:
+      PORT: "4191"
+      NODE_ENV: "production"
+      # Thư mục dữ liệu bền: settings.json (tên kênh, từ khóa, tên bảng, ảnh
+      # nền) + ảnh nền tải lên (uploads/) nằm trong volume này.
+      DATA_DIR: "/app/data"
+      # Mật khẩu panel — đặt giá trị thật trong phần Environment của Dokploy,
+      # KHÔNG ghi mật khẩu thật vào file này.
+      PANEL_KEY: "${PANEL_KEY}"
+    volumes:
+      # settings.json + uploads/ không mất mỗi lần redeploy.
+      - di-chua-online-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  di-chua-online-data:
