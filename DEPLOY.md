@@ -204,9 +204,34 @@ Chỉ dùng lại trong game của user, không phát hành lại file gốc.
   từ cấm khỏi tên và comment. Điểm, thanh tim và người trong hội trường chỉ
   lưu trong trang stage; tải lại trang là đếm lại từ đầu.
 
+## Trạng thái deploy 2026-11-06 — ĐÃ LIVE
+
+- Repo: `VuBLA2025/di-chua-online`, nhánh `master`, đủ 59 file (46 text,
+  commit `aea929b`, + 13 file nhị phân, HEAD `dfaaba6`).
+- Dokploy: project `Di Chua Online LIVE` (`Ok_w889N3B2oHQ7Nf9xqL`,
+  environment production `HyxaQTuovojjjS6UO29BV`), compose `di-chua-online`
+  (`sJTaptQn4iIsqzLyscYWo`, sourceType github, repo VuBLA2025/di-chua-online
+  nhánh master, composePath `./docker-compose.yml`, `PANEL_KEY` đã đặt trong
+  env), domain `dichua.bla.io.vn` (`wf3aiEn-snau9_4dMCaPH`, port 4191,
+  https:true ngay từ đầu, Let's Encrypt).
+- Deploy 1 lỗi ngay sau 62ms (status error, không có errorMessage): nguyên
+  nhân là compose mới tạo qua API có `githubId` null nên Dokploy không lấy
+  được code từ GitHub. Bài học: sau `compose.create` phải `compose.update`
+  đặt `githubId` = `0-f_X4vn1CYb3EnTqIaQo` (id GitHub chung của instance này,
+  giống hệt ở compose Lớp Học Chữ và Đám Cưới), rồi mới `compose.deploy`.
+- Deploy 2: `DHSmvMx9ow4AtuH-m6KyX` status `done` 2026-11-06 ~17:15 UTC.
+  **LIVE: https://dichua.bla.io.vn/ — kiểm chứng cùng ngày:** panel `/` 200
+  `<title>Đi Chùa Online - TikTok LIVE Interactive Temple</title>`, stage
+  `/?view=stage` 200, `/api/tiktok/status` 200 JSON (`isConnected: false`),
+  gate mật khẩu: test/emit không key 403, sai key 403, đúng key 200
+  (cả `x-panel-key` lẫn `Authorization: Bearer`), `/api/control` đúng key
+  200, `/api/tts` 200 audio/mpeg MP3 hợp lệ 24.768 byte, ảnh nền
+  `/assets/bg/chanh-dien-2.webp` 200, nhạc `/assets/audio/chill_relax.mp3`
+  200. 7 game còn lại kiểm tra cùng lúc vẫn 200 (Chùa, Sàn Vui, Xuyên Việt,
+  Đám Cưới, Lớp Học, Đi Làm, Ông Lão).
+
 ## Chưa kiểm chứng
 
 - Kết nối TikTok LIVE thật, MC/giọng đọc/nhạc nền nghe bằng tai, stage nhìn
   bằng mắt trên live thật.
 - Quà thật theo tên, mốc 666 tim / 99 tim gieo quẻ trong live thật.
-- Deploy live trên Dokploy (chờ parent push + tạo project/compose).
